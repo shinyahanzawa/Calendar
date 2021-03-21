@@ -59,7 +59,7 @@ class CalendarViewWeekly {
 
 
 	/**
-	 * カレンダーを出力する
+	 * カレンダーを出力します
 	 */
 	function render(){
 		$html = [];
