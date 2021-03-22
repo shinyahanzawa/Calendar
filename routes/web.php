@@ -22,3 +22,4 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::get('/monthly', 'App\Http\Controllers\CalendarController@monthly');
 Route::get('/weekly', 'App\Http\Controllers\CalendarController@weekly');
+Route::get('/day', 'App\Http\Controllers\CalendarController@day');

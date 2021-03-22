@@ -3,7 +3,7 @@ namespace App\Calendar;
 
 use Carbon\Carbon;
 
-class CalendarViewWeekly {
+class CalendarViewDay {
 
 	private $carbon;
 
@@ -30,7 +30,7 @@ class CalendarViewWeekly {
 	 * タイトル
 	 */
 	public function getTitle(){
-		return $this->carbon->format('Y年n月');
+		return $this->carbon->format('n月d日');
 	}
 
 

@@ -16,8 +16,9 @@
                         {{ __('Login not completed') }}
                     @else
                         {{ __('Login completed!') }}
-                       <br><a href="/monthly">-Monthly-</a>
+                       <br><br><a href="/monthly">-Monthly-</a>
                        <br><a href="/weekly">-Weekly-</a>
+                       <br><a href="/day">-Day-</a>
                     @endguest
 
                 </div>

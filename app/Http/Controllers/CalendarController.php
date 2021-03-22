@@ -3,6 +3,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Calendar\CalendarViewMonthly;
 use App\Calendar\CalendarViewWeekly;
+use App\Calendar\CalendarViewDay;
+
 
 class CalendarController extends Controller
 {
@@ -32,18 +34,33 @@ class CalendarController extends Controller
 
 	public function weekly(Request $request){
 
-		// dd($request);
-
 		$date = $request->input("date");
+		
+		//取得出来ない時は現在(=今月)を指定する
+		$date = strtotime($date);
+		if(!$date)$date = time();
 
-
-		// $calendar = new CalendarViewWeekly(time());
-		$calendar = new CalendarViewWeekly(time());
-	
-		// $calendar = $calendar->getWeeks();
+		$calendar = new CalendarViewWeekly($date);
 
 		return view('weekly', [
 			"calendar" => $calendar
 		]);
 	}
+
+	public function day(Request $request){
+
+		$date = $request->input("date");
+		
+		//取得出来ない時は現在(=今月)を指定する
+		$date = strtotime($date);
+		if(!$date)$date = time();
+
+		$calendar = new CalendarViewDay($date);
+
+		return view('weekly', [
+			"calendar" => $calendar
+		]);
+	}
+
+
 }
