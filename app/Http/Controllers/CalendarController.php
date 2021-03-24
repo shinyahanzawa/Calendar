@@ -57,7 +57,7 @@ class CalendarController extends Controller
 
 		$calendar = new CalendarViewDay($date);
 
-		return view('weekly', [
+		return view('day', [
 			"calendar" => $calendar
 		]);
 	}
