@@ -62,5 +62,42 @@ class CalendarController extends Controller
 		]);
 	}
 
+	public function create(){
+
+
+		// dd($request);
+
+		// $date = $request->input("date");
+		
+		//取得出来ない時は現在(=今月)を指定する
+		// $date = strtotime($date);
+		// if(!$date)$date = time();
+
+		$calendar = new CalendarViewDay(time());
+
+		return view('create', [
+			"calendar" => $calendar
+		]);
+	}
+
+	public function store(Request $request){
+
+
+		dd($request);
+
+		// $date = $request->input("date");
+		
+		//取得出来ない時は現在(=今月)を指定する
+		// $date = strtotime($date);
+		// if(!$date)$date = time();
+
+		// $calendar = new CalendarViewDay(time());
+
+		// return view('create', [
+		// 	"calendar" => $calendar
+		// ]);
+	}
+
+	
 
 }

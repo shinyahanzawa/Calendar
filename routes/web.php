@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
 Auth::routes();
 
 Route::get('/', function () {
@@ -23,3 +24,6 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('/monthly', 'App\Http\Controllers\CalendarController@monthly');
 Route::get('/weekly', 'App\Http\Controllers\CalendarController@weekly');
 Route::get('/day', 'App\Http\Controllers\CalendarController@day');
+
+Route::get('/create', 'App\Http\Controllers\CalendarController@create');
+Route::post('/store', 'App\Http\Controllers\CalendarController@store');

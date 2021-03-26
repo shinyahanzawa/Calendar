@@ -91,7 +91,9 @@ class CalendarViewMonthly
 			$days = $week->getDays();
 			foreach ($days as $day) {
 				$html[] = '<td class="' . $day->getClassName() . '">';
+				$html[] = '<a href="http://localhost/create">';
 				$html[] = $day->render();
+				$html[] = '</a>';
 				$html[] = '</td>';
 			}
 			$html[] = '</tr>';
