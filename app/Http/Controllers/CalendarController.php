@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use App\Calendar\CalendarViewMonthly;
 use App\Calendar\CalendarViewWeekly;
 use App\Calendar\CalendarViewDay;
+use App\Models\Schedules;
 
 
 class CalendarController extends Controller
@@ -83,7 +84,17 @@ class CalendarController extends Controller
 	public function store(Request $request){
 
 
-		dd($request);
+		// dd($request);
+
+
+		$date = $request->input('date');
+        // $content = $request->input('content');
+        // $price = $request->input('price');
+        // $quantity = $request->input('quantity');
+        // Schedules::create(compact('name', 'content', 'price', 'quantity'));
+		Schedules::create(compact('date'));
+        return redirect('create');
+
 
 		// $date = $request->input("date");
 		

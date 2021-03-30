@@ -40,7 +40,7 @@
                     </label>
                     <br>
 
-                    <label>people<br>
+                    <label>person<br>
                     <input type="number" name="people" style="width:50px;" min="1" max="100" value="{{ old('people') }}"></input>
                     </label>
                     <br>

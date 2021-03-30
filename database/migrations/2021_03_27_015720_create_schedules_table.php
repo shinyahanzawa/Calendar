@@ -15,9 +15,9 @@ class CreateSchedulesTable extends Migration
     {
         Schema::create('schedules', function (Blueprint $table) {
             $table->id();
-            $table->string('user_id')->comment("ユーザーID");
-            $table->string('schedule_id')->comment("スケジュールID");
-            $table->dateTime('date')->comment("日付");
+            $table->string('user_id')->nullable()->comment("ユーザーID");
+            $table->string('schedule_id')->nullable()->comment("スケジュールID");
+            $table->dateTime('date')->nullable()->comment("日付");
             $table->integer('schedule_flag')->nullable()->default(0)->comment("0:その他　1:学校　２:仕事");
             $table->string('title')->nullable();
             $table->string('body',500)->nullable();
