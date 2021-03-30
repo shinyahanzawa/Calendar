@@ -17,7 +17,7 @@ class UsersTableSeeder extends Seeder
         DB::table('users')->insert([
             'name' => 'user',
             'email' => 'user@yahoo.co.jp',
-            'password' => 'user',
+            'password' => '$2y$10$sLSOQJl5J1LTRqhJkzORgeeOiP8jy91mTwonxFjjlu5KpOV7/ekA6',
         ]);
     }
 }
