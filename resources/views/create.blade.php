@@ -41,7 +41,7 @@
                     <br>
 
                     <label>person<br>
-                    <input type="number" name="people" style="width:50px;" min="1" max="100" value="{{ old('people') }}"></input>
+                    <input type="text" name="person" value="{{ old('person') }}"></input>
                     </label>
                     <br>
 
@@ -49,8 +49,8 @@
                     <input type="text" name="address" value="{{ old('address') }}"></input>
                     </label>
                     <br><br>
-
                     <input type="submit" value="save">
+                    <input type="submit" value="delete">
             </div>
             </form>
         </div>
