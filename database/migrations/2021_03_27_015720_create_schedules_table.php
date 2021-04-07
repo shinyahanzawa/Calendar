@@ -16,14 +16,13 @@ class CreateSchedulesTable extends Migration
         Schema::create('schedules', function (Blueprint $table) {
             $table->id();
             $table->string('user_id')->nullable()->comment("ユーザーID");
-            $table->string('schedule_id')->nullable()->comment("スケジュールID");
             $table->dateTime('date')->nullable()->comment("日付");
-            $table->integer('schedule_flag')->nullable()->default(0)->comment("0:その他　1:学校　２:仕事");
+            $table->integer('schedule_flag')->nullable()->default(0)->comment("0:仕事 1:学校 2:休み 3:その他 ");
             $table->string('title')->nullable();
-            $table->string('body',500)->nullable();
+            $table->string('schedule',500)->nullable();
+            $table->string('person')->nullable();
             $table->string('address')->nullable();
-            $table->integer('people')->nullable();
-            $table->integer('delete_flag')->nullable()->default(0)->comment("0:有効　1:無効");
+            $table->integer('delete_flag')->nullable()->default(0)->comment("0:有効 1:無効");
             $table->timestamps();
         });
     }

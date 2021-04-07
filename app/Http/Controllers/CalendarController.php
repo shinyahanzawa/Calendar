@@ -1,45 +1,58 @@
 <?php
+
 namespace App\Http\Controllers;
+
 use Illuminate\Http\Request;
 use App\Calendar\CalendarViewMonthly;
 use App\Calendar\CalendarViewWeekly;
 use App\Calendar\CalendarViewDay;
 use App\Models\Schedules;
 
+use Auth;
+
+
+
 
 class CalendarController extends Controller
 {
 
-   public function monthly(Request $request){
+	public function __construct()
+	{
+		$this->middleware('auth');
+	}
+
+
+	public function monthly(Request $request)
+	{
 
 		//クエリーのdateを受け取る
 		$date = $request->input("date");
 
 		//dateがYYYY-MMの形式かどうか判定する
-		if($date && preg_match("/^[0-9]{4}-[0-9]{2}$/", $date)){
+		if ($date && preg_match("/^[0-9]{4}-[0-9]{2}$/", $date)) {
 			$date = strtotime($date . "-01");
-		}else{
+		} else {
 			$date = null;
 		}
 
 		//取得出来ない時は現在(=今月)を指定する
-		if(!$date)$date = time();
+		if (!$date) $date = time();
 
 		//カレンダーに渡す
 		$calendar = new CalendarViewMonthly($date);
 		return view('monthly', [
 			"calendar" => $calendar
 		]);
-	
 	}
 
-	public function weekly(Request $request){
+	public function weekly(Request $request)
+	{
 
 		$date = $request->input("date");
-		
+
 		//取得出来ない時は現在(=今月)を指定する
 		$date = strtotime($date);
-		if(!$date)$date = time();
+		if (!$date) $date = time();
 
 		$calendar = new CalendarViewWeekly($date);
 
@@ -48,13 +61,14 @@ class CalendarController extends Controller
 		]);
 	}
 
-	public function day(Request $request){
+	public function day(Request $request)
+	{
 
 		$date = $request->input("date");
-		
+
 		//取得出来ない時は現在(=今月)を指定する
 		$date = strtotime($date);
-		if(!$date)$date = time();
+		if (!$date) $date = time();
 
 		$calendar = new CalendarViewDay($date);
 
@@ -63,13 +77,14 @@ class CalendarController extends Controller
 		]);
 	}
 
-	public function create(){
+	public function create()
+	{
 
 
 		// dd($request);
 
 		// $date = $request->input("date");
-		
+
 		//取得出来ない時は現在(=今月)を指定する
 		// $date = strtotime($date);
 		// if(!$date)$date = time();
@@ -81,34 +96,20 @@ class CalendarController extends Controller
 		]);
 	}
 
-	public function store(Request $request){
+	public function store(Request $request)
+	{
 
-
-		// dd($request);
-
-
-		$date = $request->input('date');
-        // $content = $request->input('content');
-        // $price = $request->input('price');
-        // $quantity = $request->input('quantity');
-        // Schedules::create(compact('name', 'content', 'price', 'quantity'));
-		Schedules::create(compact('date'));
-        return redirect('create');
-
-
-		// $date = $request->input("date");
+		$user = Auth::user();
 		
-		//取得出来ない時は現在(=今月)を指定する
-		// $date = strtotime($date);
-		// if(!$date)$date = time();
+		$user_id = $user->id;
+		$date = $request->input('date');
+		$schedule_flag = $request->input('schedule_flag');
+		$title = $request->input('title');
+		$schedule = $request->input('schedule');
+		$person = $request->input('person');
+		$address = $request->input('address');
 
-		// $calendar = new CalendarViewDay(time());
-
-		// return view('create', [
-		// 	"calendar" => $calendar
-		// ]);
+		Schedules::create(compact('user_id', 'date', 'schedule_flag', 'title', 'schedule', 'person', 'address'));
+		return redirect('create');
 	}
-
-	
-
 }

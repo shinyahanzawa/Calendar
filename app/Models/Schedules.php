@@ -15,11 +15,13 @@ class Schedules extends Model
      * @var array
      */
     protected $fillable = [
+        'user_id',
         'date',
-        // 'email',
-        // 'password',
+        'schedule_flag',
+        'title',
+        'schedule',
+        'person',
+        'address',
     ];
-
-
 
 }
