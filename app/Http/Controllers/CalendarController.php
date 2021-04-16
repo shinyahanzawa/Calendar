@@ -79,8 +79,6 @@ class CalendarController extends Controller
 
 	public function create()
 	{
-
-
 		// dd($request);
 
 		// $date = $request->input("date");
@@ -100,7 +98,7 @@ class CalendarController extends Controller
 	{
 
 		$user = Auth::user();
-		
+
 		$user_id = $user->id;
 		$date = $request->input('date');
 		$schedule_flag = $request->input('schedule_flag');
@@ -112,4 +110,5 @@ class CalendarController extends Controller
 		Schedules::create(compact('user_id', 'date', 'schedule_flag', 'title', 'schedule', 'person', 'address'));
 		return redirect('create');
 	}
+
 }

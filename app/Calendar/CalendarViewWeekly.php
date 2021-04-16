@@ -1,13 +1,16 @@
 <?php
+
 namespace App\Calendar;
 
 use Carbon\Carbon;
 
-class CalendarViewWeekly {
+class CalendarViewWeekly
+{
 
 	private $carbon;
 
-	function __construct($date){
+	function __construct($date)
+	{
 		$this->carbon = new Carbon($date);
 	}
 
@@ -15,13 +18,15 @@ class CalendarViewWeekly {
 	/**
 	 * 次の週
 	 */
-	public function getNextWeek(){
+	public function getNextWeek()
+	{
 		return $this->carbon->copy()->addWeek();
 	}
 	/**
 	 * 前の週
 	 */
-	public function getPreviousWeek(){
+	public function getPreviousWeek()
+	{
 		return $this->carbon->copy()->subWeek();
 	}
 
@@ -29,7 +34,8 @@ class CalendarViewWeekly {
 	/**
 	 * タイトル
 	 */
-	public function getTitle(){
+	public function getTitle()
+	{
 		return $this->carbon->format('Y年n月');
 	}
 
@@ -38,15 +44,15 @@ class CalendarViewWeekly {
 	public function getWeeks()
 	{
 		$weeks = [];
-		
+
 		//週初め
 		$firstDay = $this->carbon->copy()->startOfWeek();
 
 		//週末まで
 		$lastDay = $this->carbon->copy()->endOfWeek();
-				
+
 		//週末までループさせる
-		while ($firstDay<$lastDay) {
+		while ($firstDay < $lastDay) {
 			//週カレンダーViewを作成する
 			$week = new CalendarWeek($firstDay, count($weeks));
 			$weeks[] = $week;
@@ -61,19 +67,20 @@ class CalendarViewWeekly {
 	/**
 	 * カレンダーを出力します
 	 */
-	function render(){
+	function render()
+	{
 		$html = [];
 		$html[] = '<div class="calendar">';
 		$html[] = '<table class="table">';
-		$html[] = '<tbody>';				
-		
+		$html[] = '<tbody>';
+
 		$weeks = $this->getWeeks();
 		foreach ($weeks as $day) {
 			$data = $day->carbon->format("D");
 			$html[] = '<tr>';
 			$html[] = '<td class="day-' . mb_strtolower($day->carbon->format("D")) . '">';
 			$html[] = '<p >' . $data . '</p>';
-			$html[] = '<p class="day">' . $day->carbon->format("n-j"). '</p>';
+			$html[] = '<p class="day">' . $day->carbon->format("n-j") . '</p>';
 			$html[] = '</td>';
 			$html[] = '</tr>';
 		}
@@ -82,6 +89,5 @@ class CalendarViewWeekly {
 		$html[] = '</table>';
 		$html[] = '</div>';
 		return implode("", $html);
-		
 	}
 }
