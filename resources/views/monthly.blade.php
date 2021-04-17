@@ -10,16 +10,19 @@
                 </div>
                 @else
                 <div class="card-header text-center">
-                    <a class="btn btn-outline-secondary float-left" href="{{ url('monthly/?date=' . $calendar->getPreviousMonth()) }}">前の月</a>
+                    <a class="btn btn-outline-secondary float-left" href="{{ url('monthly/?date=' . $calendar->getPreviousMonth()) }}">先月</a>
 
                     <span>{{ $calendar->getTitle() }}</span>
 
-                    <a class="btn btn-outline-secondary float-right" href="{{ url('monthly/?date=' . $calendar->getNextMonth()) }}">次の月</a>
+                    <a class="btn btn-outline-secondary float-right" href="{{ url('monthly/?date=' . $calendar->getNextMonth()) }}">翌月</a>
                 </div>
                 </div>
+                <form method="post" name="form1" action="/create">
+                @csrf
                 <div class="card-body">
                     {!! $calendar->render() !!}
                 </div>
+                </form>
             @endguest
         </div>
     </div>
