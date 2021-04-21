@@ -17,12 +17,9 @@
                     <a class="btn btn-outline-secondary float-right" href="{{ url('monthly/?date=' . $calendar->getNextMonth()) }}">翌月</a>
                 </div>
                 </div>
-                <form method="post" name="form1" action="/create">
-                @csrf
                 <div class="card-body">
                     {!! $calendar->render() !!}
                 </div>
-                </form>
             @endguest
         </div>
     </div>

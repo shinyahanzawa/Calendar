@@ -23,8 +23,7 @@ class CalendarController extends Controller
 
 
 	public function monthly(Request $request)
-	{
-
+	{	
 		//クエリーのdateを受け取る
 		$date = $request->input("date");
 
@@ -37,7 +36,6 @@ class CalendarController extends Controller
 
 		//取得出来ない時は現在(=今月)を指定する
 		if (!$date) $date = time();
-
 		//カレンダーに渡す
 		$calendar = new CalendarViewMonthly($date);
 		return view('monthly', [
@@ -77,7 +75,7 @@ class CalendarController extends Controller
 		]);
 	}
 
-	public function create()
+	public function create(Request $request)
 	{
 		// dd($request);
 
@@ -87,7 +85,7 @@ class CalendarController extends Controller
 		// $date = strtotime($date);
 		// if(!$date)$date = time();
 
-		$calendar = new CalendarViewDay(time());
+		$calendar = Schedules::all();
 
 		return view('create', [
 			"calendar" => $calendar

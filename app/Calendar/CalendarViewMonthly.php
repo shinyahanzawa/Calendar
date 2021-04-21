@@ -44,10 +44,10 @@ class CalendarViewMonthly
 
 		//初日
 		$firstDay = $this->carbon->copy()->firstOfMonth();
-
+		
 		//月末まで
 		$lastDay = $this->carbon->copy()->lastOfMonth();
-
+		
 		//1週目
 		$week = new CalendarWeek($firstDay->copy());
 
@@ -92,93 +92,42 @@ class CalendarViewMonthly
 
 		$weeks = $this->getWeeks();
 
-		// $int = 0;
 		foreach ($weeks as $week) {
-			$html[] = '<tr class="' . $week->getClassName() . '">';
+			$html[] = '<tr class="' . $week->getClassName() . '">';	
 			$days = $week->getDays();
-
+			
 			foreach ($days as $day) {
-				$i = 0;
 				$html[] = '<td class="' . $day->getClassName() . '">';
-				$html[] = '<a href="http://localhost/create">';
-				//登録データ取得
-				$work = Schedules::all();
-				foreach ($work as $key) {
-					$time = strtotime($key->date);
-					$num = date('y-m-d', $time);
-					$data = mb_strtolower($day->carbon->format("y-m-d"));
+				$check = mb_strtolower($day->carbon->format("y-m"));
+				$num = mb_strtolower($this->carbon->format("y-m"));
 					
-					
-					// $html[] = '<form method="post" name="form_1" id="form_1" action="/create">';
-					// $html[] = '@csrf';
-					// $html[] = '<input type="hidden" name="user_name" value="ユーザー名">';
-					// $html[] = '<a href="javascript:form_1.submit()">リンク名</a>';
-					// $html[] = '</form>';
+					//同月のデータ表示
+					if($check == $num){
+						$html[] = '<a href="http://localhost/create">';
+						$data = mb_strtolower($day->carbon->format("d"));
+						$html[] = '<p class="day">' . $data . '</p>';
+						$html[] = '</a>';
 
-					
-					if ($num == $data) { //登録されたデータがあるとき、登録データを表示
-						// $data = mb_strtolower($day->carbon->format("d"));
-						// $num = strtotime($key->date);
-						// $num = date('d', $time);
-						// $html[] = '<form method="post" name="form1" action="/create">';
-						// $html[] = '@csrf';
-						// $int++;
-						// $html[] = '<a href="javascript:form'.$int.'.submit()">' .date('d', $time). '</a>';
-						
-						// $html[] = '<inputs type="hidden" name="date" value='.date('d', $time).'>';
-						$html[] = '<a href="javascript:form1.submit()">' .date('d', $time). '</a>';
-						$html[] = '<br>';
-						$html[] = '<a href="javascript:form1.submit()">' . $key->title . '</a>';
-
-						// $html[] = '</form>';
-						
-						$i = 1;
+						//登録データ取得
+						$work = Schedules::all();
+						foreach ($work as $key) {
+							$time = strtotime($key->date);
+							$num = date('y-m-d', $time);
+							$data = mb_strtolower($day->carbon->format("y-m-d"));
+							
+							if ($num == $data) { //登録されたデータがあるとき、登録データを表示
+								$html[] = '<p>' . $key->title . '</p>';
+							}
+						}
 					}
-				}
-				// $str[] = date('d', $time);
-				
-				if ($i != 1) { //登録されたデータがない時、カレンダーを表示
-					$data = mb_strtolower($day->carbon->format("d"));
-					$html[] = '<p class="day">' . $data . '</p>';
-					// $da[] ="";
- 					// $da[] = $data;
-					// dd($da);
-					// $html[] = '<input type="hidden" name="date" value='.$data.'>';
-					// $html[] = '<a href="javascript:form1.submit()">' . $data . '</a>';
-				}
-				// $html[] = '</form>';
 				$html[] = '</a>';
 				$html[] = '</td>';
 			}
 		}
 		$html[] = '</tr>';
-		
 		$html[] = '</tbody>';
-		
 		$html[] = '</table>';
 		$html[] = '</div>';
 		return implode("", $html);
 	}
-	
-	// function post(){
-		
-		
-		// 	$html[] = '<form method="post" name="form_1" id="form_1" action="/create">">';
-		// 	$html[] = '{{!! csrf_field() !!}}';
-		// 	$html[] = '<input type="hidden" name="user_name" value="ユーザー名">';
-		// 	$html[] = '<a href="javascript:form_1.submit()">リンク名</a>';
-		// 	$html[] = '</form>';
-		
-		// 	$html = [];
-		// 	$html[] = '<form method="post" name="form_1" id="form_1" action="/create">';
-		// 	$html[] = '@csrf';
-		// 	$html[] = '<input type="hidden" name="user_name" placeholder="ユーザー名">';
-		// 	$html[] = '<a href="javascript:form_1.submit()">リンク名</a>';
-		// 	$html[] = '</form>';
-	// 	return implode("", $html);
-	
-	
-	// }
-	
-	
 }
