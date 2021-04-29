@@ -52,24 +52,25 @@
                                         <input type="hidden" name="date" value="{{$day->carbon->format("Y-m-d")}}">
                                         <a href="javascript:void(0)" onclick="this.parentNode.submit()">
                                             <p class="day">{{$day->carbon->format("d")}}</p>
+
+
+                                            @foreach($calendar->schedules() as $key)
+                                            <?php
+                                            $time = strtotime($key->date);
+                                            $num = date('y-m-d', $time);
+                                            $data = mb_strtolower($day->carbon->format("y-m-d"));
+                                            ?>
+
+                                            @if($num == $data)
+                                            <p>{{$key->title}}</p>
+                                            @endif
+
+                                            @endforeach
+
+
                                         </a>
                                     </form>
                                     @endif
-
-                                    @foreach($calendar->schedules() as $key)
-                                    <?php
-                                    $time = strtotime($key->date);
-                                    $num = date('y-m-d', $time);
-                                    $data = mb_strtolower($day->carbon->format("y-m-d"));
-                                    ?>
-
-                                    @if($num == $data)
-                                    <p>{{$key->title}}</p>
-                                    @endif
-
-                                    @endforeach
-
-
                                     @endforeach
 
                                     @endforeach
