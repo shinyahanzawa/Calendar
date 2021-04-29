@@ -8,7 +8,7 @@
                     @csrf
 
                     <label>date<br>
-                        <input type="date" name="date" value="{{ old('date') }}">
+                        <input type="date" name="date" value="{{ $calendar }}">
                     </label>
                     <br><br>
 

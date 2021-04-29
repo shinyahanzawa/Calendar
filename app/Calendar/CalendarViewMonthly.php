@@ -8,11 +8,16 @@ use App\Models\Schedules;
 class CalendarViewMonthly
 {
 
-	private $carbon;
+	public $carbon;
 
 	function __construct($date)
 	{
 		$this->carbon = new Carbon($date);
+	}
+
+	public function getdate()
+	{
+		return $this->carbon;
 	}
 
 	/**
@@ -38,7 +43,7 @@ class CalendarViewMonthly
 		return $this->carbon->format('Y年n月');
 	}
 
-	protected function getWeeks()
+	public function getWeeks()
 	{
 		$weeks = [];
 
@@ -68,66 +73,11 @@ class CalendarViewMonthly
 		return $weeks;
 	}
 
-	/**
-	 * カレンダーを出力する
-	 */
-	function render()
+
+	public function schedules()
 	{
-		$html = [];
-		$html[] = '<div class="calendar">';
-		$html[] = '<table class="table">';
-		$html[] = '<thead>';
-		$html[] = '<tr>';
-		$html[] = '<th>Man</th>';
-		$html[] = '<th>Tue</th>';
-		$html[] = '<th>Web</th>';
-		$html[] = '<th>Tur</th>';
-		$html[] = '<th>Fri</th>';
-		$html[] = '<th>Sat</th>';
-		$html[] = '<th>Sun</th>';
-		$html[] = '</tr>';
-		$html[] = '</thead>';
-
-		$html[] = '<tbody>';
-
-		$weeks = $this->getWeeks();
-
-		foreach ($weeks as $week) {
-			$html[] = '<tr class="' . $week->getClassName() . '">';	
-			$days = $week->getDays();
-			
-			foreach ($days as $day) {
-				$html[] = '<td class="' . $day->getClassName() . '">';
-				$check = mb_strtolower($day->carbon->format("y-m"));
-				$num = mb_strtolower($this->carbon->format("y-m"));
-					
-					//同月のデータ表示
-					if($check == $num){
-						$html[] = '<a href="http://localhost/create">';
-						$data = mb_strtolower($day->carbon->format("d"));
-						$html[] = '<p class="day">' . $data . '</p>';
-						$html[] = '</a>';
-
-						//登録データ取得
-						$work = Schedules::all();
-						foreach ($work as $key) {
-							$time = strtotime($key->date);
-							$num = date('y-m-d', $time);
-							$data = mb_strtolower($day->carbon->format("y-m-d"));
-							
-							if ($num == $data) { //登録されたデータがあるとき、登録データを表示
-								$html[] = '<p>' . $key->title . '</p>';
-							}
-						}
-					}
-				$html[] = '</a>';
-				$html[] = '</td>';
-			}
-		}
-		$html[] = '</tr>';
-		$html[] = '</tbody>';
-		$html[] = '</table>';
-		$html[] = '</div>';
-		return implode("", $html);
+		return Schedules::all();
 	}
+
+
 }
