@@ -4,8 +4,12 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 
+date_default_timezone_set('Asia/Tokyo');
+
+
 class DatabaseSeeder extends Seeder
 {
+
     /**
      * Seed the application's database.
      *
@@ -16,7 +20,7 @@ class DatabaseSeeder extends Seeder
         // \App\Models\User::factory(10)->create(); 
         $this->call([
             UsersTableSeeder::class,
-            // CreateSchedulesTable::class,
+            SchedulesTableSeeder::class,
         ]);
     }
 }
