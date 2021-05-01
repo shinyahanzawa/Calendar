@@ -13,13 +13,12 @@
                     @endif
 
                     @guest
-                        {{ __('Login not completed') }}
+                        <p>{{ __('Login not completed') }}</p>
                     @else
-                        {{ __('Login completed!') }}
-                       <br><a href="/monthly">Monthly</a>
-                       <br><a href="/weekly">Weekly</a>
-                       <br><a href="/day">Day</a>
-                       <br>
+                        <p>{{ __('Login completed!') }}</p>
+                       <a href="/monthly" class="btn btn-outline-secondary">Monthly</a>
+                       <a href="/weekly" class="btn btn-outline-secondary">Weekly</a>
+                       <a href="/day" class="btn btn-outline-secondary">Day</a>
                     @endguest
 
                 </div>

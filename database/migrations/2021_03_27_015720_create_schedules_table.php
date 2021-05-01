@@ -17,11 +17,8 @@ class CreateSchedulesTable extends Migration
             $table->id();
             $table->string('user_id')->nullable()->comment("ユーザーID");
             $table->dateTime('date')->nullable()->comment("日付");
-            $table->integer('schedule_flag')->nullable()->default(0)->comment("0:仕事 1:学校 2:休み 3:その他 ");
-            $table->string('title')->nullable();
-            $table->string('schedule',500)->nullable();
-            $table->string('person')->nullable();
-            $table->string('address')->nullable();
+            $table->string('title')->nullable()->comment("タイトル");
+            $table->string('schedule',500)->nullable()->comment("内容");
             $table->integer('delete_flag')->nullable()->default(0)->comment("0:有効 1:無効");
             $table->timestamps();
         });

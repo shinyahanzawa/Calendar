@@ -17,11 +17,8 @@ class Schedules extends Model
     protected $fillable = [
         'user_id',
         'date',
-        'schedule_flag',
         'title',
-        'schedule',
-        'person',
-        'address',
+        'schedule'
     ];
 
 }

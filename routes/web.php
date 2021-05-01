@@ -26,4 +26,6 @@ Route::get('/weekly', 'App\Http\Controllers\CalendarController@weekly');
 Route::get('/day', 'App\Http\Controllers\CalendarController@day');
 
 Route::post('/create', 'App\Http\Controllers\CalendarController@create');
+Route::get('/create', 'App\Http\Controllers\CalendarController@create');
+
 Route::post('/store', 'App\Http\Controllers\CalendarController@store');
