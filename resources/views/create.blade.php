@@ -3,7 +3,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <form action="/store" method="post">
+            <form method="post">
                 @csrf
 
                 <div class="card-body">
@@ -16,8 +16,8 @@
                     <h5>Schedule</h5>
                     <textarea name="schedule" cols="30" rows="10" value="">{{ $schedule }}</textarea><br><br>
 
-                    <input class="btn btn-outline-secondary" type="submit" value="save">
-                    <input class="btn btn-outline-secondary" type="submit" value="delete">
+                    <input class="btn btn-outline-secondary" type="submit" formaction="/store" value="save">
+                    <input class="btn btn-outline-secondary" type="submit" formaction="/delete" value="delete">
                     <br>
                 </div>
 

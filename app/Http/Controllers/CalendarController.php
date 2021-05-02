@@ -150,4 +150,27 @@ class CalendarController extends Controller
 
 		return redirect('create');
 	}
+
+	public function delete(Request $request)
+	{
+		$schedules = Schedules::all();
+
+		$x = 0;
+		foreach ($schedules as $key) {
+			$int = $request->date; //画面から送信されたデータ-1
+			$int  = strstr($int, 'T', true);
+
+			$time = $key->date; //scheduleテーブルデータ-2
+			$time  = strstr($time, ' ', true);
+
+			if ($time == $int) { //1と2が一致してるか確認
+				schedules::where('id', $key->id)->delete();
+			}
+		}
+
+		return redirect('create');
+	}
+
+
+	
 }

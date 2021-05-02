@@ -29,3 +29,5 @@ Route::post('/create', 'App\Http\Controllers\CalendarController@create');
 Route::get('/create', 'App\Http\Controllers\CalendarController@create');
 
 Route::post('/store', 'App\Http\Controllers\CalendarController@store');
+
+Route::post('/delete', 'App\Http\Controllers\CalendarController@delete');
