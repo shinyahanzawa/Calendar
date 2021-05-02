@@ -57,8 +57,8 @@
                                             @foreach($calendar->schedules() as $key)
                                             <?php
                                             $time = strtotime($key->date);
-                                            $num = date('y-m-d', $time);
-                                            $data = mb_strtolower($day->carbon->format("y-m-d"));
+                                            $num = date('Y-m-d', $time);
+                                            $data = mb_strtolower($day->carbon->format("Y-m-d"));
                                             ?>
 
                                             @if($num == $data)
