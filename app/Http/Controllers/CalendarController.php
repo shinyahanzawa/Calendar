@@ -12,7 +12,6 @@ use Auth;
 
 
 
-
 class CalendarController extends Controller
 {
 
@@ -23,7 +22,8 @@ class CalendarController extends Controller
 
 
 	public function monthly(Request $request)
-	{	
+	{
+
 		//クエリーのdateを受け取る
 		$date = $request->input("date");
 
@@ -33,11 +33,11 @@ class CalendarController extends Controller
 		} else {
 			$date = null;
 		}
-
 		//取得出来ない時は現在(=今月)を指定する
 		if (!$date) $date = time();
 		//カレンダーに渡す
 		$calendar = new CalendarViewMonthly($date);
+
 		return view('monthly', [
 			"calendar" => $calendar
 		]);
@@ -77,32 +77,77 @@ class CalendarController extends Controller
 
 	public function create(Request $request)
 	{
-		$calendar = $request->date;
 
-		
+		$schedules = Schedules::all();
 
+		$x = 0;
+		foreach ($schedules as $key) {
+			$int = $request->date;
+			$time = strtotime($key->date);
+			$num = date('Y-m-d', $time);
 
-		return view('create', [
-			"calendar" => $calendar
-		]);
+			if ($num == $int && $x == 0) { //登録データが存在してるか確認
+				$date  = preg_replace("/( |　)/", "T", $key->date);
+				$title = $key->title;
+				$schedule = $key->schedule;
+				$x = 1;
+			} elseif ($x != 1) {
+				$date  = $int . "T00:00";
+				$title = "";
+				$schedule = "";
+			}
+		}
+		return view('create', compact('date', 'title', 'schedule'));
 	}
 
-	
+
 	public function store(Request $request)
 	{
 
+		date_default_timezone_set('Asia/Tokyo');
+
 		$user = Auth::user();
 
-		$user_id = $user->id;
-		$date = $request->input('date');
-		$schedule_flag = $request->input('schedule_flag');
-		$title = $request->input('title');
-		$schedule = $request->input('schedule');
-		$person = $request->input('person');
-		$address = $request->input('address');
+		$schedules = Schedules::all();
 
-		Schedules::create(compact('user_id', 'date', 'schedule_flag', 'title', 'schedule', 'person', 'address'));
+		$x = 0;
+		foreach ($schedules as $key) {
+			$int = $request->date; //画面から送信されたデータ-1
+			// $int  = preg_replace("/(T)/", " ", $int);
+			$int  = strstr($int, 'T', true);
+
+			$time = $key->date; //scheduleテーブルデータ-2
+			$time  = strstr($time, ' ', true);
+
+			if ($time == $int) { //1と2が一致してるか確認
+				$id = $key->id;
+				$x = 1;
+			} elseif ($time != $int && $x == 0) {
+				$id = "";
+			}
+		}
+
+
+		if ($id) { //id確認
+			$items = schedules::where('id', $id)->get();
+			foreach ($items as $item) {
+				$item->date = $request->input('date');
+				$item->title = $request->input('title');
+				$item->schedule = $request->input('schedule');
+				$item->save();
+			
+			}
+
+		} else {
+			$str = new Schedules();
+			$str->user_id = $user->id;
+			$str->date = $request->input('date');
+			$str->title = $request->input('title');
+			$str->schedule = $request->input('schedule');
+			$str->save();
+
+		}
+
 		return redirect('create');
 	}
-
 }
