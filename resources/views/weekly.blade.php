@@ -24,14 +24,13 @@
 
                                     @foreach ($days as $day)
                                     <tr>
-                                    <td class='{{$day->getClassName()}}'>
+                                    <td class="day-<?php echo mb_strtolower($day->carbon->format("D"))?>">
 
                                         <?php
                                         $check = mb_strtolower($day->carbon->format("y-m"));
                                         $now = $calendar->getdate()->format("y-m");
                                         ?>
 
-                                        @if($check == $now)
                                         <form method="POST" action="/create">
                                             @CSRF
                                             <input type="hidden" name="date" value="{{$day->carbon->format("Y-m-d")}}">
@@ -51,7 +50,6 @@
                                                 @endforeach
                                             </a>
                                         </form>
-                                        @endif
                                         @endforeach
 
                                     </td>
