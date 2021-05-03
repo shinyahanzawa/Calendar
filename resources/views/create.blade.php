@@ -7,13 +7,13 @@
                 @csrf
 
                 <div class="card-body">
-                    <h5>Date</h5>
+                    <h6>Date</h6>
                     <input type="datetime-local" name="date" value="{{ $date }}"><br><br>
 
-                    <h5>Title</h5>
+                    <h6>Title</h6>
                     <input type="text" name="title" value="{{ $title }}"></input><br><br>
 
-                    <h5>Schedule</h5>
+                    <h6>Schedule</h6>
                     <textarea name="schedule" cols="30" rows="10" value="">{{ $schedule }}</textarea><br><br>
 
                     <input class="btn btn-outline-secondary" type="submit" formaction="/store" value="save">
