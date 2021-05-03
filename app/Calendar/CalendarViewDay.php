@@ -15,6 +15,10 @@ class CalendarViewDay
 		$this->carbon = new Carbon($date);
 	}
 
+	public function getdate()
+	{
+		return $this->carbon;
+	}
 
 	/**
 	 * 次の週
@@ -103,4 +107,10 @@ class CalendarViewDay
 		$html[] = '</div>';
 		return implode("", $html);
 		}
+
+		public function schedules()
+		{
+			return Schedules::all();
+		}
+	
 }
