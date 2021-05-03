@@ -66,51 +66,8 @@ class CalendarViewDay
 		return $weeks;
 	}
 
-
-
-
-	/**
-	 * カレンダーを出力します
-	 */
-	function render()
+	public function schedules()
 	{
-		$html = [];
-		$html[] = '<div class="calendar">';
-		$html[] = '<table class="table">';
-		$html[] = '<tbody>';
-		
-		//登録データ取得
-		$work = Schedules::all();
-		
-		for ($x = 0; $x <= 24; $x++) {
-			$html[] = '<tr>';
-			$html[] = '<td>';
-			$html[] = '<a href="http://localhost/create">'.$x .":00".'</a>';
-
-
-		foreach ($work as $key) {
-			$time = strtotime($key->date);
-			$num = date('y-m-d', $time);	
-			$data = mb_strtolower($this->carbon->format("y-m-d"));
-			
-				if ($num == $data) { //登録されたデータがあるとき、登録データを表示
-					$html[] = '<br>'.$key->title;
-					$html[] = '<br>'.$key->schedule;
-				}
-			}
-		}
-		
-		$html[] = '</td>';
-		$html[] = '</tr>';
-		$html[] = '</tbody>';
-		$html[] = '</table>';
-		$html[] = '</div>';
-		return implode("", $html);
-		}
-
-		public function schedules()
-		{
-			return Schedules::all();
-		}
-	
+		return Schedules::all();
+	}
 }

@@ -16,32 +16,41 @@
                         <table class="table">
                             <tbody>
 
-                                @for ($x = 0; $x <= 24; $x++) 
-                                <tr>
+                                @for ($x = 0; $x <= 24; $x++) <tr>
+                                    <?php $hour = $x.':00';?>
                                     <td>
-                                        <a href="http://localhost/create">{{$x}}:00</a>
+                                        <form method="POST" action="/create">
+                                            @CSRF
+                                            <input type="hidden" name="start_date" value="{{$calendar->getdate()->format("Y-m-d")}}">
+                                            <a href="javascript:void(0)" onclick="this.parentNode.submit()">
+                                                <p class="day">{{$hour}}</p>
+                                            </a>
+                                                @foreach($calendar->schedules() as $key)
+                                                <?php
+                                                $num = date('Y-m-d', strtotime($key->start_date));
+                                                $data = mb_strtolower($calendar->getdate()->format("Y-m-d"));
+                                                ?>
 
-                                        @foreach($calendar->schedules() as $key)
-                                        <?php
-                                        $num = date('y-m-d', strtotime($key->start_date));
-                                        $data = mb_strtolower($calendar->getdate()->format("y-m-d"));
-                                        ?>
+                                                @if($num == $data)
+                                                <?php 
+                                                $start = date('H', strtotime($key->start_date));
+                                                $end = date('H', strtotime($key->end_date));
+                                                $end = str_replace("00", "24", $end);
+                                                ?>
+                                                    @if($start <= $x && $x <= $end)
+                                                    <p>{{$key->title}}</p>
+                                                    <p>{{$key->schedule}}</p>
+                                                    @endif                                                
+                                                @endif
 
-                                        @if($num == $data)
-                                        <br>{{$key->title}}
-                                        <br>{{$key->schedule}}
-                                        @endif
-
-                                        @endforeach
-                                @endfor
+                                                @endforeach
+                                        </form>
+                                        @endfor
                                     </td>
                                     </tr>
                             </tbody>
                         </table>
                     </div>
-
-
-                    <!-- {!! $calendar->render() !!} -->
                 </div>
             </div>
         </div>
