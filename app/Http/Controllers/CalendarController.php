@@ -82,22 +82,23 @@ class CalendarController extends Controller
 
 		$x = 0;
 		foreach ($schedules as $key) {
-			$int = $request->date;
-			$time = strtotime($key->date);
-			$num = date('Y-m-d', $time);
-
-			if ($num == $int && $x == 0) { //登録データが存在してるか確認
-				$date  = preg_replace("/( |　)/", "T", $key->date);
+			$int = $request->start_date;
+			$num = date('Y-m-d', strtotime($key->start_date));
+			
+			if ($num == $int && $x == 0) { //登録データが存在してるとき
+				$start_date  = preg_replace("/( |　)/", "T", $key->start_date);
+				$end_date  = preg_replace("/( |　)/", "T", $key->end_date);
 				$title = $key->title;
 				$schedule = $key->schedule;
 				$x = 1;
-			} elseif ($x != 1) {
-				$date  = $int . "T00:00";
+			} elseif ($x != 1) {//データがない時、画面の日付を取得
+				$start_date  = $int . "T00:00";
+				$end_date  = $int . "T00:00";
 				$title = "";
 				$schedule = "";
-			}
+			} 
 		}
-		return view('create', compact('date', 'title', 'schedule'));
+		return view('create', compact('start_date','end_date','title','schedule'));
 	}
 
 
@@ -112,14 +113,10 @@ class CalendarController extends Controller
 
 		$x = 0;
 		foreach ($schedules as $key) {
-			$int = $request->date; //画面から送信されたデータ-1
-			// $int  = preg_replace("/(T)/", " ", $int);
-			$int  = strstr($int, 'T', true);
+			$int  = strstr($request->start_date, 'T', true);//画面から送信されたデータ-1
+			$time  = strstr($key->start_date, ' ', true);//scheduleテーブルデータ-2
 
-			$time = $key->date; //scheduleテーブルデータ-2
-			$time  = strstr($time, ' ', true);
-
-			if ($time == $int) { //1と2が一致してるか確認
+			if ($time == $int) { //1と2が一致してるかy-m-dで確認
 				$id = $key->id;
 				$x = 1;
 			} elseif ($time != $int && $x == 0) {
@@ -131,7 +128,8 @@ class CalendarController extends Controller
 		if ($id) { //id確認
 			$items = schedules::where('id', $id)->get();
 			foreach ($items as $item) {
-				$item->date = $request->input('date');
+				$item->start_date = $request->input('start_date');
+				$item->end_date = $request->input('end_date');				
 				$item->title = $request->input('title');
 				$item->schedule = $request->input('schedule');
 				$item->save();
@@ -141,7 +139,8 @@ class CalendarController extends Controller
 		} else {
 			$str = new Schedules();
 			$str->user_id = $user->id;
-			$str->date = $request->input('date');
+			$str->start_date = $request->input('start_date');
+			$str->end_date = $request->input('end_date');				
 			$str->title = $request->input('title');
 			$str->schedule = $request->input('schedule');
 			$str->save();
@@ -155,15 +154,11 @@ class CalendarController extends Controller
 	{
 		$schedules = Schedules::all();
 
-		$x = 0;
 		foreach ($schedules as $key) {
-			$int = $request->date; //画面から送信されたデータ-1
-			$int  = strstr($int, 'T', true);
+			$int  = strstr($request->start_date, 'T', true);//画面から送信されたデータ-1
+			$time  = strstr($key->start_date, ' ', true);//scheduleテーブルデータ-2
 
-			$time = $key->date; //scheduleテーブルデータ-2
-			$time  = strstr($time, ' ', true);
-
-			if ($time == $int) { //1と2が一致してるか確認
+			if ($time == $int) { //1と2が一致してるかy-m-dで確認
 				schedules::where('id', $key->id)->delete();
 			}
 		}

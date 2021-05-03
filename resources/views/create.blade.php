@@ -8,7 +8,8 @@
 
                 <div class="card-body">
                     <h6>Date</h6>
-                    <input type="datetime-local" name="date" value="{{ $date }}"><br><br>
+                    <input type="datetime-local" name="start_date" value="{{ $start_date }}">~
+                    <input type="datetime-local" name="end_date" value="{{ $end_date }}"><br><br>
 
                     <h6>Title</h6>
                     <input type="text" name="title" value="{{ $title }}"></input><br><br>

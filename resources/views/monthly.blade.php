@@ -49,24 +49,23 @@
                                     @if($check == $now)
                                     <form method="POST" action="/create">
                                         @CSRF
-                                        <input type="hidden" name="date" value="{{$day->carbon->format("Y-m-d")}}">
+                                        <input type="hidden" name="start_date" value="{{$day->carbon->format("Y-m-d")}}">
+
                                         <a href="javascript:void(0)" onclick="this.parentNode.submit()">
                                             <p class="day">{{$day->carbon->format("d")}}</p>
 
 
                                             @foreach($calendar->schedules() as $key)
                                             <?php
-                                            $time = strtotime($key->date);
-                                            $num = date('Y-m-d', $time);
+                                            $start = date('Y-m-d', strtotime($key->start_date));                                          
                                             $data = mb_strtolower($day->carbon->format("Y-m-d"));
                                             ?>
 
-                                            @if($num == $data)
+                                            @if($start == $data)
                                             <p>{{$key->title}}</p>
                                             @endif
 
                                             @endforeach
-
 
                                         </a>
                                     </form>

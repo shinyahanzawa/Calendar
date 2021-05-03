@@ -33,20 +33,20 @@
 
                                         <form method="POST" action="/create">
                                             @CSRF
-                                            <input type="hidden" name="date" value="{{$day->carbon->format("Y-m-d")}}">
+                                            <input type="hidden" name="start_date" value="{{$day->carbon->format("Y-m-d")}}">
                                             <a href="javascript:void(0)" onclick="this.parentNode.submit()">
                                                 <p class="day">{{$day->carbon->format("m/d")}}</p>
 
                                                 @foreach($calendar->schedules() as $key)
                                                 <?php
-                                                $time = strtotime($key->date);
-                                                $num = date('Y-m-d', $time);
+                                                $num = date('Y-m-d', strtotime($key->start_date));
                                                 $data = mb_strtolower($day->carbon->format("Y-m-d"));
                                                 ?>
 
                                                 @if($num == $data)
                                                 {{$key->title}}
                                                 @endif
+
                                                 @endforeach
                                             </a>
                                         </form>
