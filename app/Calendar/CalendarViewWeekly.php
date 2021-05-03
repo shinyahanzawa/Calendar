@@ -15,6 +15,11 @@ class CalendarViewWeekly
 		$this->carbon = new Carbon($date);
 	}
 
+	public function getdate()
+	{
+		return $this->carbon;
+	}
+
 
 	/**
 	 * 次の週
@@ -63,51 +68,10 @@ class CalendarViewWeekly
 		return $weeks;
 	}
 
-
-
-	/**
-	 * カレンダーを出力します
-	 */
-	function render()
+	public function schedules()
 	{
-		$html = [];
-		$html[] = '<div class="calendar">';
-		$html[] = '<table class="table">';
-		$html[] = '<tbody>';
-
-		$weeks = $this->getWeeks();
-		foreach ($weeks as $day) {
-			$html[] = '<tr>';
-
-			//登録データ取得
-			$work = Schedules::all();
-
-			$html[] = '<td class="day-' . mb_strtolower($day->carbon->format("D")) . '">';
-			$html[] = '<a href="http://localhost/create">';
-
-			//月日
-			$html[] = '<p class="day">' . mb_strtolower($day->carbon->format("m-d")) . '</p>';
-			$html[] = '</a>';
-
-			//曜日
-			// $html[] = '<p class="day">' . mb_strtolower($day->carbon->format("D")).'</p>';
-
-			foreach ($work as $key) {
-				$time = strtotime($key->date);
-				$num = date('y-m-d', $time);
-				$data = mb_strtolower($day->carbon->format("y-m-d"));
-
-				if ($num == $data) { //登録されたデータがあるとき、登録データを表示
-					$html[] = $key->title;
-				}
-			}
-		}
-
-		$html[] = '</td>';
-		$html[] = '</tr>';
-		$html[] = '</tbody>';
-		$html[] = '</table>';
-		$html[] = '</div>';
-		return implode("", $html);
+		return Schedules::all();
 	}
+
+	
 }
