@@ -20,7 +20,6 @@ class CreateSchedulesTable extends Migration
             $table->dateTime('end_date')->nullable()->comment("終了日");
             $table->string('title')->nullable()->comment("タイトル");
             $table->string('schedule',500)->nullable()->comment("内容");
-            $table->integer('delete_flag')->nullable()->default(0)->comment("0:有効 1:無効");
             $table->timestamps();
         });
     }

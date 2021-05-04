@@ -147,7 +147,7 @@ class CalendarController extends Controller
 
 		}
 
-		return redirect('create');
+		return redirect('create')->with('flash_message', 'success');
 	}
 
 	public function delete(Request $request)
@@ -163,7 +163,7 @@ class CalendarController extends Controller
 			}
 		}
 
-		return redirect('create');
+		return redirect('create')->with('flash_message', 'success');
 	}
 
 
