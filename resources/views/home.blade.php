@@ -17,7 +17,10 @@
                         {{ __('Login not completed') }}
                         </div>
                     @else
-                        <!-- <p>{{ __('Login completed!') }}</p> -->
+                    <div class="text-center">
+                        <p>{{ __('-Menu-') }}</p>
+                        </div>
+
                        <div class="text-center">
                        <a href="/monthly" class="btn btn-outline-secondary">Monthly</a>
                        <a href="/weekly" class="btn btn-outline-secondary">Weekly</a>
