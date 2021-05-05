@@ -8,6 +8,8 @@ use App\Calendar\CalendarViewWeekly;
 use App\Calendar\CalendarViewDay;
 use App\Models\Schedules;
 
+use DateTime;
+
 use Auth;
 
 
@@ -33,8 +35,12 @@ class CalendarController extends Controller
 		} else {
 			$date = null;
 		}
-		//取得出来ない時は現在(=今月)を指定する
-		if (!$date) $date = time();
+		//取得出来ない時は現在(=今月)を指定
+		if(!$date){
+			date_default_timezone_set('Asia/Tokyo');
+			$date = new DateTime();
+			$date->format("Y-m-d");
+			}
 		//カレンダーに渡す
 		$calendar = new CalendarViewMonthly($date);
 
@@ -48,10 +54,13 @@ class CalendarController extends Controller
 
 		$date = $request->input("date");
 
-		//取得出来ない時は現在(=今月)を指定する
-		$date = strtotime($date);
-		if (!$date) $date = time();
-
+		//取得出来ない時は現在(=今月)を指定
+		if(!$date){
+			date_default_timezone_set('Asia/Tokyo');
+			$date = new DateTime();
+			$date->format("Y-m-d");
+			}
+	
 		$calendar = new CalendarViewWeekly($date);
 
 		return view('weekly', [
@@ -64,9 +73,12 @@ class CalendarController extends Controller
 
 		$date = $request->input("date");
 
-		//取得出来ない時は現在(=今月)を指定する
-		$date = strtotime($date);
-		if (!$date) $date = time();
+		//取得出来ない時は現在(今月)を指定
+		if(!$date){
+		date_default_timezone_set('Asia/Tokyo');
+		$date = new DateTime();
+		$date->format("Y-m-d");
+		}
 
 		$calendar = new CalendarViewDay($date);
 		$schedules = Schedules::all();
