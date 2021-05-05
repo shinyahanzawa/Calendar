@@ -69,9 +69,11 @@ class CalendarController extends Controller
 		if (!$date) $date = time();
 
 		$calendar = new CalendarViewDay($date);
+		$schedules = Schedules::all();
 
 		return view('day', [
-			"calendar" => $calendar
+			"calendar" => $calendar,
+			"schedules" => $schedules
 		]);
 	}
 
@@ -82,23 +84,35 @@ class CalendarController extends Controller
 
 		$x = 0;
 		foreach ($schedules as $key) {
-			$int = $request->start_date;
-			$num = date('Y-m-d', strtotime($key->start_date));
 
-			if ($num == $int && $x == 0) { //登録データが存在してるとき
-				$start_date  = preg_replace("/( |　)/", "T", $key->start_date);
-				$end_date  = preg_replace("/( |　)/", "T", $key->end_date);
-				$title = $key->title;
-				$schedule = $key->schedule;
-				$x = 1;
-			} elseif ($x != 1) { //データがない時、画面の日付を取得
-				$start_date  = $int . "T00:00";
-				$end_date  = $int . "T00:00";
-				$title = "";
-				$schedule = "";
+			$int = date('Y-m-d', strtotime($request->start_date)); //画面データ　開始時刻　取得
+			$date = date('Y-m-d', strtotime($key->start_date)); //schedule table　開始時刻　取得
+
+			if ($date == $int) { //登録データが存在してるとき
+				$start = date('H', strtotime($key->start_date)); //schedule table　開始時刻　取得
+				$end = date('H', strtotime($key->end_date)); //schedule table　終了時刻　取得
+
+				$request_date = date('H', strtotime($request->start_date)); //画面データ　開始時刻　取得
+
+				if ($start <= $request_date && $request_date <= $end  && $x == 0) {
+					$id = $key->id;
+					$start_date  = preg_replace("/( |　)/", "T", $key->start_date);
+					$end_date  = preg_replace("/( |　)/", "T", $key->end_date);
+					$title = $key->title;
+					$schedule = $key->schedule;
+					$x = 1;
+				} 
+			} 
+			if(empty($id)){
+					$id = "";
+					$start_date  = preg_replace("/( |　)/", "T", $request->start_date);
+					$end_date  = preg_replace("/( |　)/", "T", $request->start_date);
+					$title = "";
+					$schedule = "";
 			}
+
 		}
-		return view('create', compact('start_date', 'end_date', 'title', 'schedule'));
+		return view('create', compact('id', 'start_date', 'end_date', 'title', 'schedule'));
 	}
 
 
@@ -114,7 +128,7 @@ class CalendarController extends Controller
 		$x = 0;
 		foreach ($schedules as $key) {
 			$int  = $request->start_date; //画面から送信されたデータ-1
-			$time = str_replace(" ", "T", $key->start_date);//scheduleテーブルデータ-2
+			$time = str_replace(" ", "T", $key->start_date); //scheduleテーブルデータ-2
 
 			if ($time == $int) { //1と2が一致してるかy-m-dで確認
 				$id = $key->id;

@@ -17,33 +17,40 @@
                             <tbody>
 
                                 @for ($x = 0; $x <= 24; $x++) <tr>
-                                    <?php $hour = $x.':00';?>
+                                    <?php $count = strlen($x);
+                                    $count < 2  ? $hour = '0'.$x.':00' : $hour = $x . ':00';
+                                    $int = mb_strtolower($calendar->getdate()->format("Y-m-d"))." ".$hour;//Y-m-dの日付に00:00を追加
+                                    ?>
+
                                     <td>
                                         <form method="POST" action="/create">
                                             @CSRF
-                                            <input type="hidden" name="start_date" value="{{$calendar->getdate()->format("Y-m-d")}}">
                                             <a href="javascript:void(0)" onclick="this.parentNode.submit()">
                                                 <p class="day">{{$hour}}</p>
                                             </a>
-                                                @foreach($calendar->schedules() as $key)
-                                                <?php
-                                                $num = date('Y-m-d', strtotime($key->start_date));
-                                                $data = mb_strtolower($calendar->getdate()->format("Y-m-d"));
-                                                ?>
+                                            @foreach($schedules as $key)
+                                            <input type="hidden" name="start_date" value="{{$int}}">
 
-                                                @if($num == $data)
-                                                <?php 
-                                                $start = date('H', strtotime($key->start_date));
-                                                $end = date('H', strtotime($key->end_date));
-                                                $end = str_replace("00", "24", $end);
-                                                ?>
-                                                    @if($start <= $x && $x <= $end)
-                                                    <p>{{$key->title}}</p>
-                                                    <p>{{$key->schedule}}</p>
-                                                    @endif                                                
-                                                @endif
+                                            <?php
+                                            $num = date('Y-m-d', strtotime($key->start_date));
+                                            $data = mb_strtolower($calendar->getdate()->format("Y-m-d"));
+                                            ?>
 
-                                                @endforeach
+                                            @if($num == $data)
+                                            <?php
+                                            $start = date('H', strtotime($key->start_date));
+                                            $end = date('H', strtotime($key->end_date));
+                                            $end = str_replace("00", "24", $end);
+                                            ?>
+
+
+                                            @if($start <= $x && $x <=$end) 
+                                            {{$key->title}}
+                                            {{$key->schedule}}
+                                            @endif
+                                            @endif
+
+                                            @endforeach
                                         </form>
                                         @endfor
                                     </td>
