@@ -5,8 +5,9 @@
         <div class="col-md-8">
             <form method="post">
                 @csrf
-
                 <div class="card-body">
+                    <input type="hidden" name="id" value={{ $id }}>
+                    
                     <h6>Date</h6>
                     <input type="datetime-local" name="start_date" value="{{ $start_date }}">~
                     <input type="datetime-local" name="end_date" value="{{ $end_date }}"><br><br>

@@ -118,7 +118,7 @@ class CalendarController extends Controller
 
 	public function store(Request $request)
 	{
-
+		
 		date_default_timezone_set('Asia/Tokyo');
 
 		$user = Auth::user();
@@ -127,13 +127,10 @@ class CalendarController extends Controller
 
 		$x = 0;
 		foreach ($schedules as $key) {
-			$int  = $request->start_date; //画面から送信されたデータ-1
-			$time = str_replace(" ", "T", $key->start_date); //scheduleテーブルデータ-2
-
-			if ($time == $int) { //1と2が一致してるかy-m-dで確認
+			if ($key->id == $request->id) { //request,IDとschedule,IDが一致していたときの処理
 				$id = $key->id;
 				$x = 1;
-			} elseif ($time != $int && $x == 0) {
+			} elseif ($key->id != $request->id && $x == 0) {////request,IDとschedule,IDが一致しないときの処理
 				$id = "";
 			}
 		}
@@ -162,16 +159,13 @@ class CalendarController extends Controller
 	public function delete(Request $request)
 	{
 		$schedules = Schedules::all();
-
+		
 		foreach ($schedules as $key) {
-			$int  = strstr($request->start_date, 'T', true); //画面から送信されたデータ-1
-			$time  = strstr($key->start_date, ' ', true); //scheduleテーブルデータ-2
-
-			if ($time == $int) { //1と2が一致してるかy-m-dで確認
+			if ($key->id == $request->id) { //request,IDとschedule,IDが一致していたときの処理
 				schedules::where('id', $key->id)->delete();
-			}
+			} 
 		}
-
+		
 		return redirect('home')->with('flash_message', 'success');
 	}
 }
