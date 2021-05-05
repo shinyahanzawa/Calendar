@@ -18,8 +18,8 @@
                         </div>
                     @else
                     <div class="text-center">
-                        <p>{{ __('-Menu-') }}</p>
-                        </div>
+                    <strong>{{ __('-Menu-') }}</strong>
+                    </div>
 
                        <div class="text-center">
                        <a href="/monthly" class="btn btn-outline-secondary">Monthly</a>

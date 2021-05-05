@@ -16,7 +16,7 @@
                         <table class="table">
                             <tbody>
 
-                                @for ($x = 0; $x <= 24; $x++) <tr>
+                                @for ($x = 0; $x < 24; $x++) <tr>
                                     <?php $count = strlen($x);
                                     $count < 2  ? $hour = '0'.$x.':00' : $hour = $x . ':00';
                                     $int = mb_strtolower($calendar->getdate()->format("Y-m-d"))." ".$hour;//Y-m-dの日付に00:00を追加
@@ -40,7 +40,6 @@
                                             <?php
                                             $start = date('H', strtotime($key->start_date));
                                             $end = date('H', strtotime($key->end_date));
-                                            $end = str_replace("00", "24", $end);
                                             ?>
 
 
