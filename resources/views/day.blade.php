@@ -45,8 +45,8 @@
 
 
                                             @if($start <= $x && $x <=$end) 
-                                            {{$key->title}}
-                                            {{$key->schedule}}
+                                            <strong>{{$key->title}}</strong><br>
+                                            {{$key->schedule}}<br><br>
                                             @endif
                                             @endif
 
