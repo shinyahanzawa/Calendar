@@ -80,11 +80,12 @@ class CalendarController extends Controller
 	public function create(Request $request)
 	{
 
+		$request->start_date = preg_replace("/(T)/", " ", $request->start_date);
+
 		$schedules = Schedules::all();
 
 		$x = 0;
 		foreach ($schedules as $key) {
-
 			$int = date('Y-m-d', strtotime($request->start_date)); //画面データ　開始時刻　取得
 			$date = date('Y-m-d', strtotime($key->start_date)); //schedule table　開始時刻　取得
 
@@ -94,23 +95,22 @@ class CalendarController extends Controller
 
 				$request_date = date('H', strtotime($request->start_date)); //画面データ　開始時刻　取得
 
-				if ($start <= $request_date && $request_date <= $end  && $x == 0) {
+				if ($start <= $request_date && $request_date <= $end  && $x == 0) { //時刻で条件分岐
 					$id = $key->id;
 					$start_date  = preg_replace("/( |　)/", "T", $key->start_date);
 					$end_date  = preg_replace("/( |　)/", "T", $key->end_date);
 					$title = $key->title;
 					$schedule = $key->schedule;
 					$x = 1;
-				} 
-			} 
-			if(empty($id)){
-					$id = "";
-					$start_date  = preg_replace("/( |　)/", "T", $request->start_date);
-					$end_date  = preg_replace("/( |　)/", "T", $request->start_date);
-					$title = "";
-					$schedule = "";
+				}
 			}
-
+			if (empty($id)) {
+				$id = "";
+				$start_date  = preg_replace("/( |　)/", "T", $request->start_date);
+				$end_date  = preg_replace("/( |　)/", "T", $request->start_date);
+				$title = "";
+				$schedule = "";
+			}
 		}
 		return view('create', compact('id', 'start_date', 'end_date', 'title', 'schedule'));
 	}
@@ -118,7 +118,7 @@ class CalendarController extends Controller
 
 	public function store(Request $request)
 	{
-		
+
 		date_default_timezone_set('Asia/Tokyo');
 
 		$user = Auth::user();
@@ -130,7 +130,7 @@ class CalendarController extends Controller
 			if ($key->id == $request->id) { //request,IDとschedule,IDが一致していたときの処理
 				$id = $key->id;
 				$x = 1;
-			} elseif ($key->id != $request->id && $x == 0) {////request,IDとschedule,IDが一致しないときの処理
+			} elseif ($key->id != $request->id && $x == 0) { ////request,IDとschedule,IDが一致しないときの処理
 				$id = "";
 			}
 		}
@@ -159,13 +159,13 @@ class CalendarController extends Controller
 	public function delete(Request $request)
 	{
 		$schedules = Schedules::all();
-		
+
 		foreach ($schedules as $key) {
 			if ($key->id == $request->id) { //request,IDとschedule,IDが一致していたときの処理
 				schedules::where('id', $key->id)->delete();
-			} 
+			}
 		}
-		
+
 		return redirect('home')->with('flash_message', 'success');
 	}
 }

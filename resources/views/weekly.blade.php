@@ -29,11 +29,12 @@
                                         <?php
                                         $check = mb_strtolower($day->carbon->format("y-m"));
                                         $now = $calendar->getdate()->format("y-m");
+                                        $int = mb_strtolower($day->carbon->format("Y-m-d"))."T"."00:00";
                                         ?>
 
                                         <form method="POST" action="/create">
                                             @CSRF
-                                            <input type="hidden" name="start_date" value="{{$day->carbon->format("Y-m-d")}}">
+                                            <input type="hidden" name="start_date" value={{$int}}>
                                             <a href="javascript:void(0)" onclick="this.parentNode.submit()">
                                                 <p class="day">{{$day->carbon->format("m/d")}}</p>
 
