@@ -16,40 +16,35 @@
                     <div class="calendar">
                         <table class="table">
                             <tbody>
-                                    <?php 
-                                    foreach($calendar->getWeeks() as $week){
-                                        $days = $week->getDays(); 
-                                    }
-                                    ?>
+                                <?php
+                                foreach ($calendar->getWeeks() as $week) {
+                                    $days = $week->getDays();
+                                }
+                                ?>
 
-                                    @foreach ($days as $day)
-                                    <tr>
-                                    <td class="day-<?php echo mb_strtolower($day->carbon->format("D"))?>">
-
-                                        <?php
-                                        $check = mb_strtolower($day->carbon->format("y-m"));
-                                        $now = $calendar->getdate()->format("y-m");
-                                        $int = mb_strtolower($day->carbon->format("Y-m-d"))."T"."00:00";
-                                        ?>
-
+                                @foreach ($days as $day)
+                                <tr>
+                                    <td class="day-<?php echo mb_strtolower($day->carbon->format("D")) ?>">
                                         <form method="POST" action="/create">
                                             @CSRF
-                                            <input type="hidden" name="start_date" value={{$int}}>
                                             <a href="javascript:void(0)" onclick="this.parentNode.submit()">
                                                 <p class="day">{{$day->carbon->format("m/d")}}</p>
-
-                                                @foreach($calendar->schedules() as $key)
-                                                <?php
-                                                $num = date('Y-m-d', strtotime($key->start_date));
-                                                $data = mb_strtolower($day->carbon->format("Y-m-d"));
-                                                ?>
-
-                                                @if($num == $data)
-                                                {{$key->title}}
-                                                @endif
-
-                                                @endforeach
                                             </a>
+
+                                            @foreach($calendar->schedules() as $key)
+                                            <?php
+                                            $num = date('Y-m-d', strtotime($key->start_date));
+                                            $data = mb_strtolower($day->carbon->format("Y-m-d"));
+                                            $int = mb_strtolower($day->carbon->format("Y-m-d@H:i"));
+                                            ?>
+
+                                            <input type="hidden" name="start_date" value={{$int}}>
+
+                                            @if($num == $data)
+                                            <strong>{{$key->title}}</strong>
+                                            @endif
+
+                                            @endforeach
                                         </form>
                                         @endforeach
 
