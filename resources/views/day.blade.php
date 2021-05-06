@@ -19,7 +19,7 @@
                                 @for ($x = 0; $x < 24; $x++) <tr>
                                     <?php $count = strlen($x);
                                     $count < 2  ? $hour = '0'.$x.':00' : $hour = $x . ':00';
-                                    $int = mb_strtolower($calendar->getdate()->format("Y-m-d"))." ".$hour;//Y-m-dの日付に00:00を追加
+                                    $int = mb_strtolower($calendar->getdate()->format("Y-m-d"))."@".$hour;//Y-m-dの日付に00:00を追加
                                     ?>
 
                                     <td>

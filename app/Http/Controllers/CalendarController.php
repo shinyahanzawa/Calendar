@@ -36,11 +36,11 @@ class CalendarController extends Controller
 			$date = null;
 		}
 		//取得出来ない時は現在(=今月)を指定
-		if(!$date){
+		if (!$date) {
 			date_default_timezone_set('Asia/Tokyo');
 			$date = new DateTime();
 			$date->format("Y-m-d");
-			}
+		}
 		//カレンダーに渡す
 		$calendar = new CalendarViewMonthly($date);
 
@@ -55,12 +55,12 @@ class CalendarController extends Controller
 		$date = $request->input("date");
 
 		//取得出来ない時は現在(=今月)を指定
-		if(!$date){
+		if (!$date) {
 			date_default_timezone_set('Asia/Tokyo');
 			$date = new DateTime();
 			$date->format("Y-m-d");
-			}
-	
+		}
+
 		$calendar = new CalendarViewWeekly($date);
 
 		return view('weekly', [
@@ -74,10 +74,10 @@ class CalendarController extends Controller
 		$date = $request->input("date");
 
 		//取得出来ない時は現在(今月)を指定
-		if(!$date){
-		date_default_timezone_set('Asia/Tokyo');
-		$date = new DateTime();
-		$date->format("Y-m-d");
+		if (!$date) {
+			date_default_timezone_set('Asia/Tokyo');
+			$date = new DateTime();
+			$date->format("Y-m-d");
 		}
 
 		$calendar = new CalendarViewDay($date);
@@ -92,7 +92,7 @@ class CalendarController extends Controller
 	public function create(Request $request)
 	{
 
-		$request->start_date = preg_replace("/(T)/", " ", $request->start_date);
+		$request->start_date = preg_replace("/(@)/", " ", $request->start_date);
 
 		$schedules = Schedules::all();
 
@@ -101,21 +101,20 @@ class CalendarController extends Controller
 			$int = date('Y-m-d', strtotime($request->start_date)); //画面データ　開始時刻　取得
 			$date = date('Y-m-d', strtotime($key->start_date)); //schedule table　開始時刻　取得
 
-			if ($date == $int) { //登録データが存在してるとき
-				$start = date('H', strtotime($key->start_date)); //schedule table　開始時刻　取得
-				$end = date('H', strtotime($key->end_date)); //schedule table　終了時刻　取得
+			$start = date('H', strtotime($key->start_date)); //schedule table　開始時刻　取得
+			$end = date('H', strtotime($key->end_date)); //schedule table　終了時刻　取得
 
-				$request_date = date('H', strtotime($request->start_date)); //画面データ　開始時刻　取得
+			$request_date = date('H', strtotime($request->start_date)); //画面データ　開始時刻　取得
 
-				if ($start <= $request_date && $request_date <= $end  && $x == 0) { //時刻で条件分岐
-					$id = $key->id;
-					$start_date  = preg_replace("/( |　)/", "T", $key->start_date);
-					$end_date  = preg_replace("/( |　)/", "T", $key->end_date);
-					$title = $key->title;
-					$schedule = $key->schedule;
-					$x = 1;
-				}
+			if ($date == $int && $start <= $request_date && $request_date <= $end  && $x == 0) { ////登録データが存在してるとき(時刻で条件分岐)
+				$id = $key->id;
+				$start_date  = preg_replace("/( |　)/", "T", $key->start_date);
+				$end_date  = preg_replace("/( |　)/", "T", $key->end_date);
+				$title = $key->title;
+				$schedule = $key->schedule;
+				$x = 1;
 			}
+
 			if (empty($id)) {
 				$id = "";
 				$start_date  = preg_replace("/( |　)/", "T", $request->start_date);
