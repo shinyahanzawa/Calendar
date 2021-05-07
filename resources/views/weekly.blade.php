@@ -35,10 +35,10 @@
                                             <?php
                                             $num = date('Y-m-d', strtotime($key->start_date));
                                             $data = mb_strtolower($day->carbon->format("Y-m-d"));
-                                            $int = mb_strtolower($day->carbon->format("Y-m-d@H:i"));
+                                            $int = mb_strtolower($day->carbon->format("Y-m-d"));
                                             ?>
 
-                                            <input type="hidden" name="start_date" value={{$int}}>
+                                            <input type="hidden" name="weekly" value={{$int}}>
 
                                             @if($num == $data)
                                             <strong>{{$key->title}}</strong>

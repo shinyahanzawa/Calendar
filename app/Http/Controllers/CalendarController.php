@@ -91,30 +91,44 @@ class CalendarController extends Controller
 
 	public function create(Request $request)
 	{
-
-		$request->start_date = preg_replace("/(@)/", " ", $request->start_date);
-
 		$schedules = Schedules::all();
 
 		$x = 0;
 		foreach ($schedules as $key) {
-			$int = date('Y-m-d', strtotime($request->start_date)); //画面データ　開始時刻　取得
-			$date = date('Y-m-d', strtotime($key->start_date)); //schedule table　開始時刻　取得
-
-			$start = date('H', strtotime($key->start_date)); //schedule table　開始時刻　取得
-			$end = date('H', strtotime($key->end_date)); //schedule table　終了時刻　取得
-
-			$request_date = date('H', strtotime($request->start_date)); //画面データ　開始時刻　取得
-
-			if ($date == $int && $start <= $request_date && $request_date <= $end  && $x == 0) { ////登録データが存在してるとき(時刻で条件分岐)
-				$id = $key->id;
-				$start_date  = preg_replace("/( |　)/", "T", $key->start_date);
-				$end_date  = preg_replace("/( |　)/", "T", $key->end_date);
-				$title = $key->title;
-				$schedule = $key->schedule;
-				$x = 1;
+			
+			//weekly
+			if (!empty($request->weekly)) {
+				$int = date('Y-m-d', strtotime($request->weekly)); //画面データ　開始"日"　取得
+				$date = date('Y-m-d', strtotime($key->start_date)); //schedule table　開始"日"　取得
+				if ($date == $int && $x == 0) {
+					$id = $key->id;
+					$start_date  = preg_replace("/( |　)/", "T", $key->start_date);
+					$end_date  = preg_replace("/( |　)/", "T", $key->end_date);
+					$title = $key->title;
+					$schedule = $key->schedule;
+					$x = 1;
+				}
 			}
 
+			//day
+			if (!empty($request->day)) {
+				$int = date('Y-m-d', strtotime($request->day)); //画面データ　開始"日"　取得
+				$date = date('Y-m-d', strtotime($key->start_date)); //schedule table　開始"日"　取得
+				$start = date('H', strtotime($key->start_date)); //schedule table　開始"時"　取得
+				$end = date('H', strtotime($key->end_date)); //schedule table　終了"時"　取得
+				$request_date = date('H', strtotime($request->day)); //画面データ　開始時刻　取得
+
+				if ($date == $int && $start <= $request_date && $request_date <= $end  && $x == 0) { //登録データが存在してるとき
+					$id = $key->id;
+					$start_date  = preg_replace("/( |　)/", "T", $key->start_date);
+					$end_date  = preg_replace("/( |　)/", "T", $key->end_date);
+					$title = $key->title;
+					$schedule = $key->schedule;
+					$x = 1;
+				}
+			}
+
+			
 			if (empty($id)) {
 				$id = "";
 				$start_date  = preg_replace("/( |　)/", "T", $request->start_date);
@@ -123,7 +137,14 @@ class CalendarController extends Controller
 				$schedule = "";
 			}
 		}
-		return view('create', compact('id', 'start_date', 'end_date', 'title', 'schedule'));
+
+		return view('create', compact(
+			'id',
+			'start_date',
+			'end_date',
+			'title',
+			'schedule',
+		));
 	}
 
 
