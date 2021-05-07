@@ -96,6 +96,20 @@ class CalendarController extends Controller
 		$x = 0;
 		foreach ($schedules as $key) {
 			
+			//monthly
+			if (!empty($request->monthly)) {
+				$int = date('Y-m-d', strtotime($request->monthly)); //画面データ　開始"日"　取得
+				$date = date('Y-m-d', strtotime($key->start_date)); //schedule table　開始"日"　取得
+				if ($date == $int && $x == 0) {
+					$id = $key->id;
+					$start_date  = preg_replace("/( |　)/", "T", $key->start_date);
+					$end_date  = preg_replace("/( |　)/", "T", $key->end_date);
+					$title = $key->title;
+					$schedule = $key->schedule;
+					$x = 1;
+				}
+			}
+
 			//weekly
 			if (!empty($request->weekly)) {
 				$int = date('Y-m-d', strtotime($request->weekly)); //画面データ　開始"日"　取得
