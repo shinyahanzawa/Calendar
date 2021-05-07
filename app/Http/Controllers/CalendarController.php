@@ -131,8 +131,8 @@ class CalendarController extends Controller
 			
 			if (empty($id)) {
 				$id = "";
-				$start_date  = preg_replace("/( |　)/", "T", $request->start_date);
-				$end_date  = preg_replace("/( |　)/", "T", $request->start_date);
+				$start_date  = str_replace("/", "T", $request->date);
+				$end_date  = str_replace("/", "T", $request->date);
 				$title = "";
 				$schedule = "";
 			}

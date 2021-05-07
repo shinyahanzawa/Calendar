@@ -30,6 +30,7 @@
                                             </a>
                                             @foreach($schedules as $key)
                                             <input type="hidden" name="day" value="{{$int}}">
+                                            <input type="hidden" name="date" value={{$calendar->getdate()->format("Y-m-d")}}/{{$hour}}>
 
                                             <?php
                                             $num = date('Y-m-d', strtotime($key->start_date));
