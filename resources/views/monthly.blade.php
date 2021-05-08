@@ -60,7 +60,7 @@
                                             ?>
 
                                             @if($start == $data)
-                                            <strong>{{$key->title}}</strong>
+                                            <strong>{{$key->title}}</strong><br>
                                             @endif
 
                                             @endforeach
