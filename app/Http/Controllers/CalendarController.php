@@ -91,21 +91,24 @@ class CalendarController extends Controller
 
 	public function create(Request $request)
 	{
+
+		$res = [];
 		$schedules = Schedules::all();
 
 		$x = 0;
 		foreach ($schedules as $key) {
-			
 			//monthly
 			if (!empty($request->monthly)) {
 				$int = date('Y-m-d', strtotime($request->monthly)); //画面データ　開始"日"　取得
 				$date = date('Y-m-d', strtotime($key->start_date)); //schedule table　開始"日"　取得
-				if ($date == $int && $x == 0) {
-					$id = $key->id;
-					$start_date  = preg_replace("/( |　)/", "T", $key->start_date);
-					$end_date  = preg_replace("/( |　)/", "T", $key->end_date);
-					$title = $key->title;
-					$schedule = $key->schedule;
+				if ($date == $int) {
+					$res[] = array([
+						'id' => $key->id,
+						'start_date'  => preg_replace("/( |　)/", "T", $key->start_date),
+						'end_date'  => preg_replace("/( |　)/", "T", $key->end_date),
+						'title' => $key->title,
+						'schedule' => $key->schedule
+					]);
 					$x = 1;
 				}
 			}
@@ -114,12 +117,14 @@ class CalendarController extends Controller
 			if (!empty($request->weekly)) {
 				$int = date('Y-m-d', strtotime($request->weekly)); //画面データ　開始"日"　取得
 				$date = date('Y-m-d', strtotime($key->start_date)); //schedule table　開始"日"　取得
-				if ($date == $int && $x == 0) {
-					$id = $key->id;
-					$start_date  = preg_replace("/( |　)/", "T", $key->start_date);
-					$end_date  = preg_replace("/( |　)/", "T", $key->end_date);
-					$title = $key->title;
-					$schedule = $key->schedule;
+				if ($date == $int) {
+					$res[] = array([
+						'id' => $key->id,
+						'start_date'  => preg_replace("/( |　)/", "T", $key->start_date),
+						'end_date'  => preg_replace("/( |　)/", "T", $key->end_date),
+						'title' => $key->title,
+						'schedule' => $key->schedule
+					]);
 					$x = 1;
 				}
 			}
@@ -131,34 +136,32 @@ class CalendarController extends Controller
 				$start = date('H', strtotime($key->start_date)); //schedule table　開始"時"　取得
 				$end = date('H', strtotime($key->end_date)); //schedule table　終了"時"　取得
 				$request_date = date('H', strtotime($request->day)); //画面データ　開始時刻　取得
-
-				if ($date == $int && $start <= $request_date && $request_date <= $end  && $x == 0) { //登録データが存在してるとき
-					$id = $key->id;
-					$start_date  = preg_replace("/( |　)/", "T", $key->start_date);
-					$end_date  = preg_replace("/( |　)/", "T", $key->end_date);
-					$title = $key->title;
-					$schedule = $key->schedule;
+				if ($date == $int && $start <= $request_date && $request_date <= $end) { //登録データが存在してるとき
+					$res[] = array([
+						'id' => $key->id,
+						'start_date'  => preg_replace("/( |　)/", "T", $key->start_date),
+						'end_date'  => preg_replace("/( |　)/", "T", $key->end_date),
+						'title' => $key->title,
+						'schedule' => $key->schedule
+					]);
 					$x = 1;
 				}
 			}
-
-			
-			if (empty($id)) {
-				$id = "";
-				$start_date  = str_replace("/", "T", $request->date);
-				$end_date  = str_replace("/", "T", $request->date);
-				$title = "";
-				$schedule = "";
-			}
 		}
 
-		return view('create', compact(
-			'id',
-			'start_date',
-			'end_date',
-			'title',
-			'schedule',
-		));
+		//登録データがない場合
+		if ($x == 0) {
+			$res[] = array([
+				'id' => null,
+				'start_date'  => str_replace("/", "T", $request->date),
+				'end_date'  => str_replace("/", "T", $request->date),
+				'title' => "",
+				'schedule' => "",
+			]);
+			$x = 1;
+		}
+
+		return view('create')->with('res', $res);
 	}
 
 
