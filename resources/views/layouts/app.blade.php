@@ -52,6 +52,17 @@
                     </script>
                     @endif
 
+                    {{-- エラーメッセージ --}}
+                    @if ($errors->any())
+                    @foreach ($errors->all() as $error)
+                    <script>
+                        $(function() {
+                            toastr.error("{{ $error }}");
+                        });
+                    </script>
+                    @endforeach
+                    @endif
+                    
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->

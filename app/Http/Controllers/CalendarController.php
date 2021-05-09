@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\DateTimeRequest;
+
 use App\Calendar\CalendarViewMonthly;
 use App\Calendar\CalendarViewWeekly;
 use App\Calendar\CalendarViewDay;
@@ -165,7 +167,7 @@ class CalendarController extends Controller
 	}
 
 
-	public function store(Request $request)
+	public function store(DateTimeRequest $request)
 	{
 
 		date_default_timezone_set('Asia/Tokyo');
@@ -202,6 +204,7 @@ class CalendarController extends Controller
 			$str->schedule = $request->input('schedule');
 			$str->save();
 		}
+
 		return redirect('home')->with('flash_message', 'success');
 	}
 
