@@ -17,8 +17,10 @@
                             <tbody>
 
                                 @for ($x = 0; $x < 24; $x++) <tr>
-                                    <?php $count = strlen($x);
+                                    <?php 
+                                    $count = strlen($x);
                                     $count < 2  ? $hour = '0'.$x.':00' : $hour = $x . ':00';
+                                    $count < 2  ? $min = '0'.$x.':30' : $min = $x . ':30';
                                     $int = mb_strtolower($calendar->getdate()->format("Y-m-d"))." ".$hour;//Y-m-dの日付に00:00を追加
                                     ?>
 
@@ -30,7 +32,8 @@
                                             </a>
                                             @foreach($schedules as $key)
                                             <input type="hidden" name="day" value="{{$int}}">
-                                            <input type="hidden" name="date" value={{$calendar->getdate()->format("Y-m-d")}}/{{$hour}}>
+                                            <input type="hidden" name="start_date" value={{$calendar->getdate()->format("Y-m-d")}}/{{$hour}}>
+                                            <input type="hidden" name="end_date" value={{$calendar->getdate()->format("Y-m-d")}}/{{$min}}>
 
                                             <?php
                                             $num = date('Y-m-d', strtotime($key->start_date));

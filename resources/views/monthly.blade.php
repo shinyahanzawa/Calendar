@@ -65,7 +65,9 @@
 
                                             @endforeach
                                             <input type="hidden" name="monthly" value="{{$day->carbon->format("Y-m-d")}}">
-                                            <input type="hidden" name="date" value={{$data}}/00:00>
+                                            <input type="hidden" name="start_date" value={{$data}}/00:00>
+                                            <input type="hidden" name="end_date" value={{$data}}/00:30>
+
                                     </form>
                                     @endif
                                     @endforeach

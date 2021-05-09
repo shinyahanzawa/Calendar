@@ -155,8 +155,8 @@ class CalendarController extends Controller
 		if ($x == 0) {
 			$res[] = array([
 				'id' => null,
-				'start_date'  => str_replace("/", "T", $request->date),
-				'end_date'  => str_replace("/", "T", $request->date),
+				'start_date'  => str_replace("/", "T", $request->start_date),
+				'end_date'  => str_replace("/", "T", $request->end_date),
 				'title' => "",
 				'schedule' => "",
 			]);

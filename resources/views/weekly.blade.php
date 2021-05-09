@@ -39,7 +39,8 @@
                                             ?>
 
                                             <input type="hidden" name="weekly" value={{$int}}>
-                                            <input type="hidden" name="date" value={{$int}}/00:00>
+                                            <input type="hidden" name="start_date" value={{$int}}/00:00>
+                                            <input type="hidden" name="end_date" value={{$int}}/00:30>
 
                                             @if($num == $data)
                                             <strong>{{$key->title}}</strong>
