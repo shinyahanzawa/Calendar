@@ -93,7 +93,6 @@ class CalendarController extends Controller
 
 	public function create(Request $request)
 	{
-
 		$res = [];
 		$schedules = Schedules::all();
 
@@ -169,7 +168,6 @@ class CalendarController extends Controller
 
 	public function store(DateTimeRequest $request)
 	{
-
 		date_default_timezone_set('Asia/Tokyo');
 
 		$user = Auth::user();
@@ -186,7 +184,7 @@ class CalendarController extends Controller
 			}
 		}
 
-		if ($id) { //schedule tableにデータがあれば更新
+		if (!empty($id)) { //schedule tableにデータがあれば更新
 			$items = schedules::where('id', $id)->get();
 			foreach ($items as $item) {
 				$item->start_date = $request->input('start_date');

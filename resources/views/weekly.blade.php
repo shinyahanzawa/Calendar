@@ -30,17 +30,13 @@
                                             <a href="javascript:void(0)" onclick="this.parentNode.submit()">
                                                 <p class="day">{{$day->carbon->format("m/d")}}</p>
                                             </a>
+                                            <?php $data = mb_strtolower($day->carbon->format("Y-m-d")); ?>
+                                            <input type="hidden" name="weekly" value={{$data}}>
+                                            <input type="hidden" name="start_date" value={{$data}}/00:00>
+                                            <input type="hidden" name="end_date" value={{$data}}/00:30>
 
                                             @foreach($calendar->schedules() as $key)
-                                            <?php
-                                            $num = date('Y-m-d', strtotime($key->start_date));
-                                            $data = mb_strtolower($day->carbon->format("Y-m-d"));
-                                            $int = mb_strtolower($day->carbon->format("Y-m-d"));
-                                            ?>
-
-                                            <input type="hidden" name="weekly" value={{$int}}>
-                                            <input type="hidden" name="start_date" value={{$int}}/00:00>
-                                            <input type="hidden" name="end_date" value={{$int}}/00:30>
+                                            <?php $num = date('Y-m-d', strtotime($key->start_date)); ?>
 
                                             @if($num == $data)
                                             <strong>{{$key->title}}</strong>

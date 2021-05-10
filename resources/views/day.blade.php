@@ -6,22 +6,19 @@
             <div class="card">
                 <div class="card-header text-center">
                     <a class="btn btn-outline-secondary float-left" href="{{ url('day/?date=' . $calendar->getPreviousDay()) }}">前日</a>
-
                     <span>{{ $calendar->getTitle() }}</span>
-
                     <a class="btn btn-outline-secondary float-right" href="{{ url('day/?date=' . $calendar->getNextDay()) }}">翌日</a>
                 </div>
                 <div class="card-body">
                     <div class="calendar">
                         <table class="table">
                             <tbody>
-
                                 @for ($x = 0; $x < 24; $x++) <tr>
-                                    <?php 
+                                    <?php
                                     $count = strlen($x);
-                                    $count < 2  ? $hour = '0'.$x.':00' : $hour = $x . ':00';
-                                    $count < 2  ? $min = '0'.$x.':30' : $min = $x . ':30';
-                                    $int = mb_strtolower($calendar->getdate()->format("Y-m-d"))." ".$hour;//Y-m-dの日付に00:00を追加
+                                    $count < 2  ? $hour = '0' . $x . ':00' : $hour = $x . ':00';
+                                    $count < 2  ? $min = '0' . $x . ':30' : $min = $x . ':30';
+                                    $int = mb_strtolower($calendar->getdate()->format("Y-m-d")) . " " . $hour; //Y-m-dの日付に00:00を追加
                                     ?>
 
                                     <td>
@@ -30,11 +27,11 @@
                                             <a href="javascript:void(0)" onclick="this.parentNode.submit()">
                                                 <p class="day">{{$hour}}</p>
                                             </a>
-                                            @foreach($schedules as $key)
                                             <input type="hidden" name="day" value="{{$int}}">
                                             <input type="hidden" name="start_date" value={{$calendar->getdate()->format("Y-m-d")}}/{{$hour}}>
                                             <input type="hidden" name="end_date" value={{$calendar->getdate()->format("Y-m-d")}}/{{$min}}>
 
+                                            @foreach($schedules as $key)
                                             <?php
                                             $num = date('Y-m-d', strtotime($key->start_date));
                                             $data = mb_strtolower($calendar->getdate()->format("Y-m-d"));
@@ -49,11 +46,11 @@
 
                                             @if($start <= $x && $x <=$end) 
                                             <strong>{{$key->title}}</strong><br>
-                                            {{$key->schedule}}<br><br>
-                                            @endif
-                                            @endif
+                                                {{$key->schedule}}<br><br>
+                                                @endif
+                                                @endif
 
-                                            @endforeach
+                                                @endforeach
                                         </form>
                                         @endfor
                                     </td>

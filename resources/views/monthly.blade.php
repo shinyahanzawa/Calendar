@@ -53,20 +53,17 @@
                                             <p class="day">{{$day->carbon->format("d")}}</p>
                                         </a>
 
-                                            @foreach($calendar->schedules() as $key)
-                                            <?php
-                                            $start = date('Y-m-d', strtotime($key->start_date));
-                                            $data = mb_strtolower($day->carbon->format("Y-m-d"));
-                                            ?>
+                                        <?php $data = mb_strtolower($day->carbon->format("Y-m-d")); ?>
+                                        <input type="hidden" name="monthly" value="{{$day->carbon->format("Y-m-d")}}">
+                                        <input type="hidden" name="start_date" value={{$data}}/00:00>
+                                        <input type="hidden" name="end_date" value={{$data}}/00:30>
 
-                                            @if($start == $data)
-                                            <strong>{{$key->title}}</strong><br>
-                                            @endif
-
-                                            @endforeach
-                                            <input type="hidden" name="monthly" value="{{$day->carbon->format("Y-m-d")}}">
-                                            <input type="hidden" name="start_date" value={{$data}}/00:00>
-                                            <input type="hidden" name="end_date" value={{$data}}/00:30>
+                                        @foreach($calendar->schedules() as $key)
+                                        <?php $start = date('Y-m-d', strtotime($key->start_date)); ?>
+                                        @if($start == $data)
+                                        <strong>{{$key->title}}</strong><br>
+                                        @endif
+                                        @endforeach
 
                                     </form>
                                     @endif
