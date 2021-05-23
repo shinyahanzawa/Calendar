@@ -17,10 +17,10 @@ class SchedulesTableSeeder extends Seeder
     {
         DB::table('schedules')->insert([
             'user_id' => 1,
-            'start_date' => '2021-05-20 00:00',
-            'end_date' => '2021-05-20 00:00',
+            'start_date' => '2021-05-23 00:00',
+            'end_date' => '2021-05-23 00:00',
             'title' => 'Study',
-            'schedule' => 'Laravel',
+            'schedule' => 'PHP/Laravel',
             'created_at' => new DateTime(),
             'updated_at' => new DateTime(),
         ]);
